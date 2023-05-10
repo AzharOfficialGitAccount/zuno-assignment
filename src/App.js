@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import UserDetailsPage from './components/UserDetailsPage';
+import DateComponentPage from './components/DateComponentPage';
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState(null);
+  const [numSundays, setNumSundays] = useState(null);
+
+  const handleUserSubmit = user => {
+    setUser(user);
+  };
+
+  const handleDateSubmit = numSundays => {
+    setNumSundays(numSundays);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!user && <UserDetailsPage onNext={handleUserSubmit} />}
+      {user && !numSundays && <DateComponentPage user={user} onSubmit={handleDateSubmit} />}
+      {user && numSundays &&
+        <div className='details main-div'>
+          <p>User Details:</p>
+          <ul className='list'>
+            <li>Name: {user.name}</li>
+            <li>Email: {user.email}</li>
+            <li>Gender: {user.gender}</li>
+            <li>DOB: {user.dob}</li>
+            <li>Phone: {user.phone}</li>
+          </ul>
+          <p>Number of Sundays: {numSundays}</p>
+        </div>
+      }
     </div>
   );
-}
+};
 
 export default App;
